@@ -1,5 +1,4 @@
 import numpy as np 
-import pdb
 import copy
 
 class Solution:
@@ -8,8 +7,7 @@ class Solution:
         self.data = self.loadfile("test_data.txt")
         self.dic = {}
         self.roads = []
-        self.three = []
-        self.four = []
+        
         pass
 
     def loadfile(self,filename):
@@ -33,14 +31,14 @@ class Solution:
 
     def createDic(self):
         self.process_one()
-        #print(self.data.shape)
+        
         for item in self.data:
             if self.dic.get(item[0])==None:
                 self.dic[item[0]] = [item[1]]
             else:
                 self.dic[item[0]].append(item[1])
-        #sorted(self.dic.keys())
-        #print("DIC:",self.dic)
+
+
     def findPath(self,v,path):
 
         lis = self.dic.get(v)
@@ -68,19 +66,17 @@ class Solution:
 
     #列表数据归一化乘以权重，使用sorted(data,key=lambda item:func(item),reserve=true)排序
 
+
+
     def func(self,item):
         num=i=0
-        Max = max(item)
-        Min = min(item)
-        l = Max - Min
-        for j in item:
-            v = (j-Min)/l
-            num += v*np.power(10,i)
-            i+=1
+        for j in range(len(item)-1,-1,-1):
+            num += item[j]*np.power(10,i+1)
+            i+=2
         return num
     
     def Sort(self):
-        self.roads = sorted(self.roads,key=lambda item:self.func(item),reverse=False)
+        self.roads = sorted(self.roads,key=lambda item:self.func(item))
 
 
     def writeFile(self):
@@ -98,11 +94,5 @@ class Solution:
 if __name__ == "__main__":
     s = Solution()
     s.createDic()
-    
-    #print(s.dic)
-    #pdb.set_trace()
-    #s.findPath(145,[145])
     s.allpaths()
     s.writeFile()
-
-
